@@ -1,0 +1,569 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description"
+	content="全国天气预报API接口：全国3000多个省市的天气预报查询，包括实时天气气温、最高最低温度、风级、风力、湿度、气压，穿衣、运动、洗车、感冒、空气污染扩散、紫外线等指数，7天天气、风力、最低最高温度、日出日落时间，未来24小时的时天气、气温，空气质量指数、PM2.5指数、主要污染物等信息。 
+天气图片地址：http://api.jisuapi.com/weather/icon.zip。">
+<meta name="keywords" content="全国天气预报,数据接口">
+
+<title>全国天气预报API接口_全国天气预报数据接口 - 顽石数据</title>
+
+<script src="${basePath }/fore_source/js/hm.js"></script>
+<script type="text/javascript"
+	src="${basePath }/fore_source/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript"
+	src="${basePath }/fore_source/js/jquery.zxxbox.3.0-min.js"></script>
+<script type="text/javascript"
+	src="${basePath }/fore_source/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript"
+	src="${basePath }/fore_source/js/shCore.js" charset="utf-8"></script>
+<script type="text/javascript"
+	src="${basePath }/fore_source/js/shAutoloader.js" charset="utf-8"></script>
+
+<link rel="canonical" href="http://www.jisuapi.com/api/weather/">
+
+<style type="text/css">
+#zxxBlank {
+	position: absolute;
+	z-index: 2000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 0;
+	background: black;
+}
+
+.wrap_out {
+	padding: 5px;
+	background: #eee;
+	box-shadow: 0 0 6px rgba(0, 0, 0, .5);
+	position: absolute;
+	z-index: 2000;
+	left: -9999px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.wrap_in {
+	background: #fafafa;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.wrap_bar {
+	border-bottom: 1px solid #ddd;
+	background: #f0f0f0;
+	background: -moz-linear-gradient(top, #fafafa, #eee);
+	background: -o-linear-gradient(top, #fafafa, #eee);
+	background: -webkit-linear-gradient(top, #fafafa, #eee);
+	background: linear-gradient(top, #fafafa, #eee);
+}
+
+.wrap_title {
+	line-height: 30px;
+	padding-left: 10px;
+	margin: 0;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.wrap_close {
+	position: relative;
+}
+
+.wrap_close a {
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	margin-top: -25px;
+	color: #34538b;
+	font: bold 1em/20px Tahoma;
+	text-decoration: none;
+	cursor: pointer;
+	position: absolute;
+	right: 6px;
+}
+
+.wrap_close a:hover {
+	text-decoration: none;
+	color: #f30;
+}
+
+.wrap_body {
+	background: white;
+}
+
+.wrap_remind {
+	padding: 20px 20px;
+	color: #333;
+	min-width: 200px;
+}
+
+.wrap_remind p {
+	margin: 10px 0 0;
+}
+
+.submit_btn, .cancel_btn {
+	width: 100px;
+}
+
+.submit_btn {
+	
+}
+
+.submit_btn:hover {
+	
+}
+
+.cancel_btn {
+	color: #666;
+	background-color: #eee;
+}
+</style>
+<link href="${basePath }/fore_source/css/mainv2.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="${basePath }/fore_source/css/api/jquery.mCustomScrollbar.css"
+	rel="stylesheet" type="text/css">
+<link href="${basePath }/fore_source/css/api/shCoreJisu.css"
+	type="text/css" rel="stylesheet">
+
+</head>
+<body>
+
+	<%@include file="../include/top.jsp"%>
+
+	<div id="topcrumb" class="wid">
+		<a href="${basePath }/fore/index.do">首页</a>>
+		全国天气预报数据接口
+	</div>
+	<div class="wid" id="apiibox">
+		<div id="apiileft">
+			<div id="apiinfo" style="border-top-color: #ff9575">
+				<c:forEach items="${weatherApi }" var="we">
+				<div id="apiinfoleft">
+					<img src="${basePath }/fore_source/image/api/weather.png"
+						alt="全国天气预报">
+				</div>
+				<div id="apiinforight">
+					<div id="apiitop">
+						<h1>${we.api_detail }</h1>
+
+						<div class="clearfix"></div>
+					</div>
+					<div id="apiiprice">
+
+						<span class="price"><i><del>￥</del>${we.price }</i></span>/${we.number }次
+						<div class="atipsbox">
+							<div class="atips">申请就送1000次</div>
+						</div>
+					</div>
+
+					<div id="apiidesc">
+						全国3000多个省市的天气预报查询，包括实时天气气温、最高最低温度、风级、风力、湿度、气压，穿衣、运动、洗车、感冒、空气污染扩散、紫外线等指数，7天天气、风力、最低最高温度、日出日落时间，未来24小时的时天气、气温，空气质量指数、PM2.5指数、主要污染物等信息。<br>
+						天气图片地址：http://api.jisuapi.com/weather/icon.zip
+					</div>
+					<div id="apinuminfo">
+						
+						<div class="clearfix"></div>
+					</div>
+					<div id="apiicollect">
+						<a href="${basePath }/fore/user/buy.do?api_id=${we.api_id }" rel="nofollow"
+							id="applybtn">申请数据</a>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				</c:forEach>
+				<div class="clearfix"></div>
+			</div>
+			<div id="apicontent">
+				<div id="apitab">
+					<ul>
+						<li><a href="javascript:;" class="on">API</a></li>
+						<li><a href="javascript:;">错误码参照</a></li>
+						<li><a href="javascript:;">价格</a></li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div id="apibox">
+					<div id="apimain">
+						<div id="apibleft">
+							<ul>
+								<li><a href="javascript:;" class="on">天气预报查询</a></li>
+								<li><a href="javascript:;">获取城市</a></li>
+
+							</ul>
+						</div>
+						<div id="apibright">
+							<div class="subapiitem">
+								<div class="subapiinfo">
+									<div class="apiline">
+										<label>接口地址：</label> <span class="enword lightblue">192.168.6.63:8080${basePath}/fore/api/weather/query.do</span>
+									</div>
+									<div class="apiline">
+										<label>支持格式：</label> <span class="enword">JSON</span>
+									</div>
+									<div class="apiline">
+										<label>请求方法：</label> <span class="enword">GET POST</span>
+									</div>
+									<div class="apiline">
+										<label>请求示例：</label> <span class="enword lightblue">192.168.6.63:8080${basePath}/fore/api/weather/query.do?appkey=yourappkey&amp;city_name=邯郸</span>
+									</div>
+									<div class="apilinebox">
+										<div class="alh4line">
+											<h4>请求参数：</h4>
+											<a href="https://www.jisuapi.com/api/weather/"
+												style="display: none;">API接口测试工具</a>
+										</div>
+										<table>
+											<tbody>
+												<tr>
+													<th class="col1">参数名称</th>
+													<th class="col2">类型</th>
+													<th class="col3">必填</th>
+													<th class="col4">说明</th>
+												</tr>
+												<tr>
+													<td class="param">province_name</td>
+													<td class="param">string</td>
+													<td>否</td>
+													<td>省份</td>
+												</tr>
+												<tr>
+													<td class="param">city_name</td>
+													<td class="param">string</td>
+													<td>否</td>
+													<td>城市</td>
+												</tr>
+												<tr>
+													<td class="param">district_name</td>
+													<td class="param">string</td>
+													<td>否</td>
+													<td>区县</td>
+												</tr>
+												<tr>
+													<td class="param">weather_date</td>
+													<td class="param">string</td>
+													<td>否</td>
+													<td>日期</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="apilinebox">
+										<div class="alh4line">
+											<h4>返回参数：</h4>
+											<a href="https://www.jisuapi.com/api/weather/"
+												style="display: none;">查看完整示例</a>
+										</div>
+										<table>
+											<tbody>
+												<tr>
+													<th class="col1">参数名称</th>
+													<th class="col2">类型</th>
+													<th class="col5">说明</th>
+												</tr>
+												<tr>
+													<td class="param">weather_date</td>
+													<td class="param">string</td>
+													<td>日期(2017-01-1)</td>
+												</tr>
+												<tr>
+													<td class="param">weather_detail</td>
+													<td class="param">string</td>
+													<td>天气</td>
+												</tr>
+												<tr>
+													<td class="param">max_temp</td>
+													<td class="param">string</td>
+													<td>最高气温</td>
+												</tr>
+												<tr>
+													<td class="param">min_temp</td>
+													<td class="param">string</td>
+													<td>最低气温</td>
+												</tr>
+												<tr>
+													<td class="param">windpower</td>
+													<td class="param">string</td>
+													<td>风级</td>
+												</tr>
+												<tr>
+													<td class="param">updatetime</td>
+													<td class="param">string</td>
+													<td>更新时间</td>
+												</tr>
+												<tr>
+													<td class="param">quality</td>
+													<td class="param">string</td>
+													<td>空气质量指数类别，有“优、良、轻度污染、中度污染、重度污染、严重污染”6类</td>
+												</tr>
+												<tr>
+													<td class="param">humidity</td>
+													<td class="param">string</td>
+													<td>湿度</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="apilinebox">
+									<div class="coderequest">
+										<div class="codetab">
+											<div class="clearfix"></div>
+										</div>
+										<div class="codebox">
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+								<div class="coderesponse">
+								</div>
+							</div>
+							<div class="subapiitem" style="display: none;">
+								<div class="subapiinfo">
+									<div class="apiline">
+										<label>接口地址：</label> <span class="enword lightblue">http://api.jisuapi.com/weather/city</span>
+									</div>
+									<div class="apiline">
+										<label>支持格式：</label> <span class="enword">JSON,JSONP</span>
+									</div>
+									<div class="apiline">
+										<label>请求方法：</label> <span class="enword">GET</span>
+									</div>
+									<div class="apiline">
+										<label>请求示例：</label> <span class="enword lightblue">http://api.jisuapi.com/weather/city?appkey=yourappkey</span>
+									</div>
+									<div class="apilinebox">
+										<div class="alh4line">
+											<h4>请求参数：</h4>
+											<a href="https://www.jisuapi.com/api/weather/"
+												style="display: none;">API接口测试工具</a>
+										</div>
+										<table>
+											<tbody>
+												<tr>
+													<th class="col1">参数名称</th>
+													<th class="col2">类型</th>
+													<th class="col3">必填</th>
+													<th class="col4">说明</th>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="apilinebox">
+										<div class="alh4line">
+											<h4>返回参数：</h4>
+											<a href="https://www.jisuapi.com/api/weather/"
+												style="display: none;">查看完整示例</a>
+										</div>
+										<table>
+											<tbody>
+												<tr>
+													<th class="col1">参数名称</th>
+													<th class="col2">类型</th>
+													<th class="col5">说明</th>
+												</tr>
+												<tr>
+													<td class="param">cityid</td>
+													<td class="param">int</td>
+													<td>城市ID</td>
+												</tr>
+												<tr>
+													<td class="param">parentid</td>
+													<td class="param">int</td>
+													<td>上级ID</td>
+												</tr>
+												<tr>
+													<td class="param">citycode</td>
+													<td class="param">string</td>
+													<td>城市天气代号</td>
+												</tr>
+												<tr>
+													<td class="param">city</td>
+													<td class="param">string</td>
+													<td>城市</td>
+												</tr>
+												<tr>
+													<td class="param"></td>
+													<td class="param">参数至少存在一个</td>
+													<td></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="coderesponse">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="apierror">
+						<div class="apilinebox">
+							<h4>系统错误码：</h4>
+							<table>
+								<tbody>
+									<tr>
+										<th class="col6">代号</th>
+										<th class="col7">说明</th>
+									</tr>
+									<tr>
+										<td>101</td>
+										<td>APPKEY为空或不存在</td>
+									</tr>
+									<tr>
+										<td>102</td>
+										<td>APPKEY已过期</td>
+									</tr>
+									<tr>
+										<td>103</td>
+										<td>APPKEY无请求此数据权限</td>
+									</tr>
+									<tr>
+										<td>104</td>
+										<td>请求超过次数限制</td>
+									</tr>
+									<tr>
+										<td>105</td>
+										<td>请求参数为空</td>
+									</tr>
+									<tr>
+										<td>106</td>
+										<td>请求数据不存在</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div id="apiprice">
+						<div class="apilinebox">
+							<table>
+								<tbody>
+									<tr>
+										<th class="col8">名称</th>
+										<th class="col9">权限</th>
+										<th class="col10">价格</th>
+										<th class="col10"></th>
+									</tr>
+									<tr>
+										<td class="col8">免费套餐</td>
+										<td>1000次</td>
+										<td class="col10">免费</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td class="col8">Level1</td>
+										<td>10000次</td>
+										<td class="col10">5.00元</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td class="col8">Level2</td>
+										<td>20000次</td>
+										<td class="col10">9.00元</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td class="col8">Level3</td>
+										<td>50000次</td>
+										<td class="col10">21.00元</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td class="col8">Level4</td>
+										<td>100000次</td>
+										<td class="col10">40.00元</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="apiiright" >
+		<%@include file="../include/con_right.jsp" %>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+
+	<script type="text/javascript">
+		$("#apitab a").on('click', function() {
+			$(this).parent().parent().find('a').removeClass('on');
+			$(this).addClass('on');
+			var index = $(this).parent().index();
+			$("#apibox").children('div').hide();
+			$("#apibox").children('div').eq(index).show();
+		})
+
+		$("#apibleft a").on('click', function() {
+			$(this).parent().parent().find('a').removeClass('on');
+			$(this).addClass('on');
+			var index = $(this).parent().index();
+			$("#apibright").children('.subapiitem').hide();
+			$("#apibright").children('.subapiitem').eq(index).show();
+		})
+		$(".codetab a").on('click', function() {
+			$(this).parent().parent().find('a').removeClass('on');
+			$(this).addClass('on');
+			var index = $(this).parent().index();
+			var coderequest = $(this).parent().parent().parent().parent();
+			coderequest.find('.codeitem').hide();
+			coderequest.find('.codeitem').eq(index).show();
+		})
+		
+		
+		
+		
+		$("#collectbtn").on('click', function() {
+			if ($("#logindiv a:eq(0)").html() == '登录') {
+				document.location = '/my/login.php?fromurl=/api/weather/';
+				return false;
+			}
+			$.getJSON("/my/collect.php?act=add&apiid=5", function(data) {
+				$.zxxbox.remind('收藏成功！', null, {
+					title : '提示',
+					drag : true,
+					bg : false,
+					delay : 30000
+				});
+			});
+		})
+		$(window).on("load", function() {
+			$(".codeitem").mCustomScrollbar({
+				theme : "inset-2-dark",
+				axis : "y"
+			});
+		});
+	</script>
+	
+	<script type="text/javascript">
+		$("#logininbox>a").hover(function() {
+			$('#loginindown').show();
+		}, function() {
+			$('#loginindown').hide();
+		});
+
+		$("#loginindown").hover(function() {
+			$(this).show();
+			$("#logininbox>a").addClass('on');
+		}, function() {
+			$(this).hide();
+			$("#logininbox>a").removeClass('on');
+		});
+	</script>
+
+
+	<%@include file="../include/foot.jsp"%>
+
+</body>
+</html>

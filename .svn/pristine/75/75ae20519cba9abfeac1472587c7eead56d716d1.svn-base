@@ -1,0 +1,467 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description"
+	content="彩票开奖API接口：提供福彩、体彩、地方彩票、高频彩票最新开奖结果，提供中奖情况、销售额等详情，支持查询彩票历史开奖信息。。">
+<meta name="keywords" content="彩票开奖,数据接口">
+
+<title>彩票开奖API接口_彩票开奖数据接口_顽石数据</title>
+
+
+<link href="${basePath }/fore_source/css/mainv2.css" rel="stylesheet"
+	type="text/css">
+<link
+	href="${basePath }/fore_source/css/api/jquery.mCustomScrollbar.css"
+	rel="stylesheet" type="text/css">
+<link href="${basePath }/fore_source/css/api/shCoreJisu.css"
+	type="text/css" rel="stylesheet">
+
+
+</head>
+<body>
+
+	<%@include file="../include/top.jsp"%>
+
+	<div id="topcrumb" class="wid">
+		<a href="${basePath }/fore/index.do">首页</a>>彩票开奖数据接口
+	</div>
+	<div class="wid" id="apiibox">
+		<div id="apiileft">
+			<div id="apiinfo" style="border-top-color: #ec707f">
+				<div id="apiinfoleft">
+					<img src="${basePath }/fore_source/image/api/caipiao.png"
+						alt="彩票开奖">
+				</div>
+				<div id="apiinforight">
+					<div id="apiitop">
+						<h1>彩票开奖</h1>
+
+						<div class="clearfix"></div>
+					</div>
+					<div id="apiiprice">
+
+						<span class="price"><i><del>￥</del>5.00</i></span>/10000次
+						<div class="atipsbox">
+							<div class="atips">申请就送1000次</div>
+						</div>
+					</div>
+					<div id="apiidesc">提供福彩、体彩、地方彩票、高频彩票最新开奖结果，提供中奖情况、销售额等详情，支持查询彩票历史开奖信息。</div>
+					<div id="apinuminfo">
+						<div class="clearfix"></div>
+					</div>
+					<div id="apiicollect">
+						<a href="${basePath }/fore/user/buy.do?api_id=4" rel="nofollow"
+							id="applybtn">申请数据</a>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div id="apicontent">
+				<div id="apitab">
+					<div class="clearfix"></div>
+				</div>
+				<div id="apibox">
+					<div id="apimain">
+						<div id="apibright">
+							<div class="subapiitem">
+								<div class="subapiinfo">
+									<div class="apiline">
+										<label>接口地址：</label> <span class="enword lightblue">http://127.0.0.1:8080/stone_data/fore/api/getlotterydate.do</span>
+									</div>
+									<div class="apiline">
+										<label>支持格式：</label> <span class="enword">JSON,JSONP</span>
+									</div>
+									<div class="apiline">
+										<label>请求方法：</label> <span class="enword">GET POST</span>
+									</div>
+									<div class="apiline">
+										<label>请求示例：</label> <span class="enword lightblue">http://192.168.6.62:8080/stone_data/fore/api/getlotterydate.do?appkey=yourappkey&amp;year=2017&amp;month=4&amp;day=21</span>
+									</div>
+									<div class="apilinebox">
+										<div class="alh4line">
+											<h4>请求参数：</h4>
+											<a href="https://www.jisuapi.com/api/caipiao/"
+												style="display: none;">API接口测试工具</a>
+										</div>
+										<table>
+											<tbody>
+												<tr>
+													<th class="col1">参数名称</th>
+													<th class="col2">类型</th>
+													<th class="col3">必填</th>
+													<th class="col4">说明</th>
+												</tr>
+												<tr>
+													<td class="param">年</td>
+													<td class="param">String</td>
+													<td>是</td>
+													<td>年</td>
+												</tr>
+												<tr>
+													<td class="param">月</td>
+													<td class="param">String</td>
+													<td>是</td>
+													<td>月</td>
+												</tr>
+												<tr>
+													<td class="param">日</td>
+													<td class="param">String</td>
+													<td>是</td>
+													<td>日</td>
+												</tr>
+												<tr>
+													<td class="param">lottery_numb</td>
+													<td class="param">string</td>
+													<td>是</td>
+													<td>期号</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="apilinebox">
+										<div class="alh4line">
+											<h4>返回参数：</h4>
+											<a href="https://www.jisuapi.com/api/caipiao/"
+												style="display: none;">查看完整示例</a>
+										</div>
+										<table>
+											<tbody>
+												<tr>
+													<th class="col1">参数名称</th>
+													<th class="col2">类型</th>
+													<th class="col5">说明</th>
+												</tr>
+												<tr>
+													<td class="param">issueno</td>
+													<td class="param">string</td>
+													<td>期号</td>
+												</tr>
+												<tr>
+													<td class="param">number</td>
+													<td class="param">string</td>
+													<td>开奖号码</td>
+												</tr>
+												<tr>
+													<td class="param">opendate</td>
+													<td class="param">string</td>
+													<td>开奖日期</td>
+												</tr>
+												<tr>
+													<td class="param">opentime</td>
+													<td class="param">string</td>
+													<td>开奖时间</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="coderesponse">
+									<h4>JSON返回示例 :</h4>
+									<div class="codeboxresponse">
+										<div>
+											<div id="highlighter_596340" class="syntaxhighlighter  js">
+												<table border="0" cellpadding="0" cellspacing="0">
+													<tbody>
+														<tr>
+															<td class="gutter"><div
+																	class="line number1 index0 alt2">1</div>
+																<div class="line number2 index1 alt1">2</div>
+																<div class="line number3 index2 alt2">3</div>
+																<div class="line number4 index3 alt1">4</div>
+																<div class="line number5 index4 alt2">5</div>
+																<div class="line number6 index5 alt1">6</div>
+																<div class="line number7 index6 alt2">7</div>
+																<div class="line number8 index7 alt1">8</div>
+																<div class="line number9 index8 alt2">9</div>
+																<div class="line number10 index9 alt1">10</div>
+																<div class="line number11 index10 alt2">11</div>
+																<div class="line number12 index11 alt1">12</div>
+																<div class="line number13 index12 alt2">13</div>
+																<div class="line number14 index13 alt1">14</div>
+																<div class="line number15 index14 alt2">15</div>
+																<div class="line number16 index15 alt1">16</div>
+																<div class="line number17 index16 alt2">17</div>
+																<div class="line number18 index17 alt1">18</div>
+																<div class="line number19 index18 alt2">19</div>
+																<div class="line number20 index19 alt1">20</div>
+																<div class="line number21 index20 alt2">21</div>
+																<div class="line number22 index21 alt1">22</div>
+																<div class="line number23 index22 alt2">23</div>
+																<div class="line number24 index23 alt1">24</div>
+																<div class="line number25 index24 alt2">25</div>
+																<div class="line number26 index25 alt1">26</div>
+																<div class="line number27 index26 alt2">27</div></td>
+															<td class="code"><div class="container">
+																	<div class="line number1 index0 alt2">
+																		<code class="js plain">{</code>
+																	</div>
+																	<div class="line number2 index1 alt1">
+																		<code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>
+																		<code class="js string">"status"</code>
+																		<code class="js plain">: </code>
+																		<code class="js string">"0"</code>
+																		<code class="js plain">,</code>
+																	</div>
+																	<div class="line number3 index2 alt2">
+																		<code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>
+																		<code class="js string">"msg"</code>
+																		<code class="js plain">: </code>
+																		<code class="js string">"ok"</code>
+																		<code class="js plain">,</code>
+																	</div>
+																	<div class="line number4 index3 alt1">
+																		<code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>
+																		<code class="js string">"result"</code>
+																		<code class="js plain">: {</code>
+																	</div>
+																	<div class="line number5 index4 alt2">
+																		<code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+																		<code class="js string">"qihao"</code>
+																		<code class="js plain">: </code>
+																		<code class="js string">"170425081"</code>
+																		<code class="js plain">,</code>
+																	</div>
+																	<div class="line number6 index5 alt1">
+																		<code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+																		<code class="js string">"riqi"</code>
+																		<code class="js plain">: </code>
+																		<code class="js string">"20170425"</code>
+																		<code class="js plain">,</code>
+																	</div>
+																	<div class="line number7 index6 alt2">
+																		<code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+																		<code class="js string">"kaijianghao"</code>
+																		<code class="js plain">: </code>
+																		<code class="js string">"2 5 3"</code>
+																		<code class="js plain">,</code>
+																	</div>
+																	<div class="line number9 index8 alt2">
+																		<code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+																		<code class="js string">"opendate"</code>
+																		<code class="js plain">: </code>
+																		<code class="js string">"2017-04-25 21:49:23"</code>
+																		<code class="js plain">,</code>
+																	</div>
+																	<div class="line number10 index9 alt1">
+																		<code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+																		<code class="js string">"deadline"</code>
+																		<code class="js plain">: </code>
+																		<code class="js string">"2014-12-27"</code>
+																		<code class="js plain">,</code>
+																	</div>
+																</div></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="subapiitem" style="display: none;">
+								<div class="subapiinfo">
+									<div class="apiline">
+										<label>接口地址：</label> <span class="enword lightblue">http://api.jisuapi.com/caipiao/class</span>
+									</div>
+									<div class="apiline">
+										<label>支持格式：</label> <span class="enword">JSON,JSONP</span>
+									</div>
+									<div class="apiline">
+										<label>请求方法：</label> <span class="enword">GET</span>
+									</div>
+									<div class="apiline">
+										<label>请求示例：</label> <span class="enword lightblue">http://api.jisuapi.com/caipiao/class?appkey=yourappkey</span>
+									</div>
+									<div class="apilinebox">
+										<div class="alh4line">
+											<h4>请求参数：</h4>
+											<a href="https://www.jisuapi.com/api/caipiao/"
+												style="display: none;">API接口测试工具</a>
+										</div>
+										<table>
+											<tbody>
+												<tr>
+													<th class="col1">参数名称</th>
+													<th class="col2">类型</th>
+													<th class="col3">必填</th>
+													<th class="col4">说明</th>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="apierror">
+						<div class="apilinebox">
+							<h4>API错误码：</h4>
+							<table>
+								<tbody>
+									<tr>
+										<th class="col6">代号</th>
+										<th class="col7">说明</th>
+									</tr>
+									<tr>
+										<td class="td-1">201</td>
+										<td class="td-2">彩票ID为空</td>
+									</tr>
+									<tr>
+										<td class="td-1">202</td>
+										<td class="td-2">没有信息</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="apilinebox">
+							<h4>系统错误码：</h4>
+							<table>
+								<tbody>
+									<tr>
+										<th class="col6">代号</th>
+										<th class="col7">说明</th>
+									</tr>
+									<tr>
+										<td>101</td>
+										<td>APPKEY为空或不存在</td>
+									</tr>
+									<tr>
+										<td>102</td>
+										<td>APPKEY已过期</td>
+									</tr>
+									<tr>
+										<td>103</td>
+										<td>APPKEY无请求此数据权限</td>
+									</tr>
+									<tr>
+										<td>104</td>
+										<td>请求超过次数限制</td>
+									</tr>
+									<tr>
+										<td>105</td>
+										<td>IP被禁止</td>
+									</tr>
+									<tr>
+										<td>106</td>
+										<td>IP请求超过限制</td>
+									</tr>
+									<tr>
+										<td>107</td>
+										<td>接口维护中</td>
+									</tr>
+									<tr>
+										<td>108</td>
+										<td>接口已停用</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<div id="apiiright">
+			<%@include file="../include/con_right.jsp" %>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+
+	<script type="text/javascript">
+		$("#apitab a").on('click', function() {
+			$(this).parent().parent().find('a').removeClass('on');
+			$(this).addClass('on');
+			var index = $(this).parent().index();
+			$("#apibox").children('div').hide();
+			$("#apibox").children('div').eq(index).show();
+		})
+
+		$("#apibleft a").on('click', function() {
+			$(this).parent().parent().find('a').removeClass('on');
+			$(this).addClass('on');
+			var index = $(this).parent().index();
+			$("#apibright").children('.subapiitem').hide();
+			$("#apibright").children('.subapiitem').eq(index).show();
+		})
+		$(".codetab a").on('click', function() {
+			$(this).parent().parent().find('a').removeClass('on');
+			$(this).addClass('on');
+			var index = $(this).parent().index();
+			var coderequest = $(this).parent().parent().parent().parent();
+			coderequest.find('.codeitem').hide();
+			coderequest.find('.codeitem').eq(index).show();
+		})
+
+		$("#collectbtn").on('click', function() {
+			if ($("#logindiv a:eq(0)").html() == '登录') {
+				document.location = '/my/login.php?fromurl=/api/caipiao/';
+				return false;
+			}
+			$.getJSON("/my/collect.php?act=add&apiid=19", function(data) {
+				$.zxxbox.remind('收藏成功！', null, {
+					title : '提示',
+					drag : true,
+					bg : false,
+					delay : 30000
+				});
+			});
+		})
+
+		$(window).on("load", function() {
+			$(".codeitem").mCustomScrollbar({
+				theme : "inset-2-dark",
+				axis : "y"
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		$("#logininbox>a").hover(function() {
+			$('#loginindown').show();
+		}, function() {
+			$('#loginindown').hide();
+		});
+
+		$("#loginindown").hover(function() {
+			$(this).show();
+			$("#logininbox>a").addClass('on');
+		}, function() {
+			$(this).hide();
+			$("#logininbox>a").removeClass('on');
+		});
+	</script>
+	<script type="text/javascript"
+		src="${basePath }/fore_source/js/api/widget.js.下载"></script>
+	<div id="contactwidget">
+		<ul>
+			<li id="wgqq"><a href="javascript:;">QQ</a>
+				<div class="wgbox">
+					<ul>
+						<li><a target="_blank"
+							href="http://wpa.qq.com/msgrd?v=3&amp;uin=2732567275&amp;site=qq&amp;menu=yes"
+							rel="nofollow" class="qqa">QQ在线客服</a></li>
+						<li><a target="_blank"
+							href="http://shang.qq.com/wpa/qunwpa?idkey=ace5f97dea665034b4c9cf121aa00599578b28dfc9c017199a58661bc8933e34"
+							rel="nofollow" class="qquna">QQ群</a></li>
+					</ul>
+				</div>
+				<div id="wgqqbotline"></div></li>
+			<li id="wgwx"><a href="javascript:;">微信</a>
+				<div class="wgbox">
+					<img src="./彩票开奖API接口_彩票开奖数据接口 - 极速数据_files/qrcode200.jpg"
+						height="105" alt="极速微信">
+				</div></li>
+			<li id="wgtop"><a href="javascript:;">TOP</a></li>
+		</ul>
+	</div>
+
+	<%@include file="../include/foot.jsp"%>
+
+</body>
+</html>

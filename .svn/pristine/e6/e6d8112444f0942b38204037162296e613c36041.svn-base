@@ -1,0 +1,49 @@
+package com.wskj.app.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+
+/**
+ * 广告、公告类Mapper接口
+ * @author Administrator
+ *
+ */
+@MapperScan
+public interface BaseMapper {
+
+	/**
+	 * 从天气数据库获的当天的天气
+	 * @return
+	 */
+	@Cacheable(value="weatherCache",key="'getNowDayWeather'+#province_name+#city_name+#district_name+#nowDay")
+	@Select("SELECT * FROM t_weather WHERE weather_date=#{param4} AND province_name=#{param1} AND city_name=#{param2} AND district_name=#{param3}")
+	List<Map> getNowDayWeather(String province_name, String city_name, String district_name, String nowDay);
+
+	/**
+	 * 根据时间参数获取10条最新彩票数据
+	 * @param date
+	 * @return
+	 */
+	@Cacheable(value="lotteryCache",key="'getNowDayLottery'+#date")
+	@Select("select * from t_lottery where run_date=#{param1} order by lottery_numb desc limit 0,10")
+	List<Map<String, Object>> getNowDayLottery(String date);
+	
+	/**
+	 * 抓取的彩票数据存到数据库
+	 * @param expect
+	 * @param opendate
+	 * @param opentime
+	 * @param opencode
+	 * @param dates
+	 */
+	@CacheEvict(value="lotteryCache",allEntries=true)
+	@Insert("insert into t_lottery(lottery_numb,run_date,run_time,run_numb,catch_time)values(#{arg0},#{arg1},#{arg2},#{arg3},#{arg4})")
+	void add_lotteried(String expect, String opendate, String opentime, String opencode, String dates);
+	
+}

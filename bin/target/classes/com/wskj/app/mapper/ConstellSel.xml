@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 通过日期查询星座日数据的方法 -->
+<!-- SELECT * FROM con_main WHERE '2000-1-2' BETWEEN start_date AND end_date; -->
+<mapper namespace="com.wskj.app.mapper.ConstellSel">
+
+<!-- sql语句组 -->	
+	<!-- 01.通过日期获得星座的主对象 -->
+	<select id="selOneMainByDate" resultMap="ConMainMap">
+		SELECT * FROM con_main WHERE #{param1} BETWEEN start_date AND end_date;
+	</select>
+	
+	<!-- 02.通过顺序号和选择日期获得相对应的星座内容对象 -->
+	<select id="selOneConDayByDate" resultMap="ConDayMap">
+		SELECT * FROM con_today WHERE con_num = #{param1} AND con_date = #{param2};
+	</select>
+	<select id="selOneConTomoByDate" resultMap="ConDayMap">
+		SELECT * FROM con_tomorrow WHERE con_num = #{param1} AND con_date = #{param2};
+	</select>
+	
+	<!-- 03.查询周星座内容 -->
+	<select id="selOneConWeekByDate" resultMap="ConWeekMap">
+		SELECT * FROM con_week WHERE con_num = #{param1} AND con_date = #{param2};
+	</select>
+	
+	<!-- 04.查询月星座内容 -->
+	<select id="selOneConMonthByMonth" resultMap="ConMonthMap">
+		SELECT * FROM con_month WHERE con_num = #{param1} AND con_date = #{param2};
+	</select>
+	
+	<!-- 05.查询年星座内容 -->
+	<select id="selOneConYearByYear" resultMap="ConYearMap">
+		SELECT * FROM con_year WHERE con_num = #{param1} AND con_date = #{param2};
+	</select>
+	
+	<!-- 06.查询年爱情星座内容 -->
+	<select id="selOneConLoveByYear" resultMap="ConLoveMap">
+		SELECT * FROM con_love WHERE con_num = #{param1} AND con_date = #{param2};
+	</select>
+	
+	<!-- 07.通过主键查询星座的主对象 -->
+	<select id="selOneMainByNoid" resultMap="ConMainMap">
+		SELECT * FROM con_main WHERE noid = #{param1};
+	</select>
+	
+<!-- 结果集组 -->
+	<!-- 主结果集 -->
+	<resultMap type="com.wskj.app.vo.ConMain" id="ConMainMap">
+		<id property="noid" column="noid" javaType="java.lang.Integer"/>
+		<result property="conName" column="con_name"/>
+		<result property="dateRange" column="date_range"/>
+		<result property="startDate" column="start_date"/>
+		<result property="endDate" column="end_date"/>
+		<result property="orderNum" column="order_num"/>
+	</resultMap>
+		
+	<!-- 日结果集 -->
+	<resultMap type="com.wskj.app.vo.ConDay" id="ConDayMap">
+		<id property="noid" column="noid" javaType="java.lang.Integer"/>
+		<result property="conNum" column="con_num"/>
+		<result property="conDate" column="con_date"/>
+		
+		<result property="zhengti" column="zhengti"/>
+		<result property="aiqing" column="aiqing"/>
+		<result property="shiye" column="shiye"/>
+		<result property="caifu" column="caifu"/>
+		
+		<result property="jiankang" column="jiankang"/>
+		<result property="shangtan" column="shangtan"/>
+		<result property="yanse" column="yanse"/>
+		<result property="shuzi" column="shuzi"/>
+		<result property="supei" column="supei"/>
+		<result property="duanping" column="duanping"/>
+		
+		<result property="zhengtib" column="zhengtib"/>
+		<result property="aiqingb" column="aiqingb"/>
+		<result property="shiyeb" column="shiyeb"/>
+		<result property="caifub" column="caifub"/>
+		<result property="jiankangb" column="jiankangb"/>
+	</resultMap>
+	
+	<!-- 周结果集 -->
+	<resultMap type="com.wskj.app.vo.ConWeek" id="ConWeekMap">
+		<id property="noid" column="noid" javaType="java.lang.Integer"/>
+		<result property="conNum" column="con_num"/>
+		<result property="conDate" column="con_date"/>
+		
+		<result property="zhengti" column="zhengti"/>
+		<result property="aiqing" column="aiqing"/>
+		<result property="shiye" column="shiye"/>
+		<result property="caifu" column="caifu"/>		
+		<result property="jiankang" column="jiankang"/>
+		
+		<result property="yanse" column="yanse"/>
+		<result property="xingzuo" column="xingzuo"/>
+		<result property="difang" column="difang"/>
+		<result property="duanping" column="duanping"/>		
+		
+		<result property="zhengtib" column="zhengtib"/>
+		<result property="aiqingb" column="aiqingb"/>
+		<result property="shiyeb" column="shiyeb"/>
+		<result property="caifub" column="caifub"/>
+		<result property="jiankangb" column="jiankangb"/>
+	</resultMap>
+
+	<!-- 月结果集 -->
+	<resultMap type="com.wskj.app.vo.ConMonth" id="ConMonthMap">
+		<id property="noid" column="noid" javaType="java.lang.Integer"/>
+		<result property="conNum" column="con_num"/>
+		<result property="conDate" column="con_date"/>
+		
+		<result property="zhengti" column="zhengti"/>
+		<result property="aiqing" column="aiqing"/>
+		<result property="shiye" column="shiye"/>
+		<result property="caifu" column="caifu"/>		
+		<result property="duanping" column="duanping"/>		
+		
+		<result property="zhengtib" column="zhengtib"/>
+		<result property="aiqingb" column="aiqingb"/>
+		<result property="shiyeb" column="shiyeb"/>
+		<result property="caifub" column="caifub"/>
+		<result property="jiankangb" column="jiankangb"/>
+		<result property="jieyab" column="jieyab"/>
+		<result property="kaiyunb" column="kaiyunb"/>
+	</resultMap>
+	
+	<!-- 年结果集 -->
+	<resultMap type="com.wskj.app.vo.ConYear" id="ConYearMap">
+		<id property="noid" column="noid" javaType="java.lang.Integer"/>
+		<result property="conNum" column="con_num"/>
+		<result property="conDate" column="con_date"/>
+		
+		<result property="zhengti" column="zhengti"/>
+		<result property="aiqing" column="aiqing"/>
+		<result property="shiye" column="shiye"/>
+		<result property="caifu" column="caifu"/>		
+		<result property="duanping" column="duanping"/>		
+		
+		<result property="zhengtib" column="zhengtib"/>
+		<result property="aiqingb" column="aiqingb"/>
+		<result property="shiyeb" column="shiyeb"/>
+		<result property="caifub" column="caifub"/>
+		<result property="jiankangb" column="jiankangb"/>
+	</resultMap>	
+	
+	<!-- 年爱情结果集 -->
+	<resultMap type="com.wskj.app.vo.ConLove" id="ConLoveMap">
+		<id property="noid" column="noid" javaType="java.lang.Integer"/>
+		<result property="conNum" column="con_num"/>
+		<result property="conDate" column="con_date"/>
+		
+		<result property="zhengti" column="zhengti"/>
+		<result property="nvsheng" column="nvsheng"/>
+		<result property="nansheng" column="nansheng"/>	
+		<result property="duanping" column="duanping"/>		
+		
+		<result property="zongheb" column="zongheb"/>
+		<result property="nvshengb" column="nvshengb"/>
+		<result property="nanshengb" column="nanshengb"/>
+	</resultMap>	
+</mapper>
+

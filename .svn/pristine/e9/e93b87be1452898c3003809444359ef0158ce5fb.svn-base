@@ -1,0 +1,245 @@
+package com.wskj.app.controller.fore;
+
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.wskj.app.service.BaseService;
+import com.wskj.app.service.CalenderService;
+import com.wskj.app.service.ConstellSelService;
+import com.wskj.app.service.LotteryService;
+import com.wskj.app.service.NoticeService;
+import com.wskj.app.service.PublicityService;
+import com.wskj.app.util.other.GetIP;
+import com.wskj.app.util.other.JsonBean;
+import com.wskj.app.vo.ConDay;
+import com.wskj.app.vo.ConMain;
+import com.wskj.app.vo.PageInfo;
+
+@Controller
+@RequestMapping("/fore")
+public class BaseController {
+	@Autowired
+	private NoticeService noticeService;
+	@Autowired
+	private PublicityService publicityService;
+	@Autowired
+	private BaseService baseService;
+	@Autowired
+	private CalenderService calenderService;
+	@Autowired
+	private ConstellSelService constellSelService;//星座查询服务
+	@Autowired
+	private LotteryService lotteryService;//彩票查询
+	
+	/*
+	 * 说明：top 页头跳转页面
+	 */
+	//01.首页
+	@Scheduled(cron="0 0 0 * * 2017")
+	@RequestMapping("/index.do")
+	public String index(Model mo) throws ParseException{
+		PageInfo<Map<String,Object>> notices =noticeService.listByNotice(null);
+		PageInfo<Map<String,Object>> publicities =publicityService.listByPublicity(null);
+		mo.addAttribute("notices", notices);
+		mo.addAttribute("publicities", publicities);
+		
+		//获得当天的时间格式yyyy-MM-dd
+		Date da=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-d");
+		String nowDay=sdf.format(da);
+
+
+		//从数据库获取当天的天气，显示至页面
+		String quyu=null;
+		try {
+			quyu = GetIP.getLocationByIp();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String[] area = quyu.split("&");
+		String province_name=area[0];
+		String city_name=area[1];   
+		String district_name="城区";
+		nowDay=nowDay+"%";
+		List<Map> nowWeather=baseService.getNowDayWeather(province_name,city_name,district_name,nowDay);
+		Integer weather_test =1;
+		if(nowWeather.size()==0){
+			weather_test =0;
+		}
+		mo.addAttribute("weather_test",weather_test);
+		mo.addAttribute("nowWeather",nowWeather);
+
+		//根据系统时间处理黄历的简约日期
+		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy年MM月dd日");
+		String dateStr=dateFormat.format(da);
+		System.out.println(dateStr);
+		      
+		String monthIfZore = dateStr.substring(5, 6);
+		System.out.println(monthIfZore);
+		if(monthIfZore.equals("0")){
+			String head = dateStr.substring(0, 5);
+			String body = dateStr.substring(6);
+			String whole=head+body;
+			dateStr=whole;
+			System.out.println(dateStr);
+		}
+		String dayIfZore = dateStr.substring(8, 9);
+		System.out.println(dayIfZore);
+		if(dayIfZore.equals("0")){
+			String head = dateStr.substring(0, 8);
+			String body = dateStr.substring(9);
+			String whole=head+body;
+			dateStr=whole;
+			System.out.println(dateStr);
+		}
+		//获取简约日期
+		String accordingDate=calenderService.selectSelectAccordingDateByAccordingDate(dateStr);
+		//获取公历
+		String solarCalendarDay=calenderService.selectSolarCalendarDayByAccordingDate(dateStr);
+		//获取农历
+		String lunarCalendarDate=calenderService.selectLunarCalendarDateByAccordingDate(dateStr);
+		//获取干支年
+		String lunarCalendarYear=calenderService.selectLunarCalendarYearByAccordingDate(dateStr);
+		//获取干支月
+		String lunarCalendarMonth=calenderService.selectLunarCalendarMonthByAccordingDate(dateStr);
+		//获取干支日
+		String lunarCalendarDay=calenderService.selectLunarCalendarDayByAccordingDate(dateStr);
+		//获取今日所宜
+		String suit=calenderService.selectSuitByAccordingDate(dateStr);
+		String shortSuit=suit.substring(0, 18);
+		//获取今日所忌
+		String taboo=calenderService.selectTabooByAccordingDate(dateStr);
+		String shortTaboo=taboo.substring(0, 18);
+		//获取二十四节气
+		String solarTerm=calenderService.selectSolarTermByAccordingDate(dateStr);
+		String lastsolarTerm = solarTerm.substring(0, 25);
+		String nextsolarTerm=solarTerm.substring(25);
+		
+		mo.addAttribute("accordingDate",accordingDate);
+		mo.addAttribute("solarCalendarDay",solarCalendarDay);
+		mo.addAttribute("lunarCalendarDate",lunarCalendarDate);
+		mo.addAttribute("lunarCalendarYear",lunarCalendarYear);
+		mo.addAttribute("lunarCalendarMonth",lunarCalendarMonth);
+		mo.addAttribute("lunarCalendarDay",lunarCalendarDay);
+		mo.addAttribute("suit",shortSuit);
+		mo.addAttribute("taboo",shortTaboo);
+		mo.addAttribute("lastsolarTerm",lastsolarTerm);
+		mo.addAttribute("nextsolarTerm",nextsolarTerm);
+		mo.addAttribute("province_name",province_name);
+		mo.addAttribute("city_name",city_name);
+		
+		/**
+		 * 处理关于星座的请求
+		 */
+		//01.通过当日日期查询对应的星座的主对象
+		Calendar conCal = Calendar.getInstance();
+		int conDayB = conCal.get(Calendar.DATE);
+		
+		//测试代码
+		Random random = new Random();
+		int connum = random.nextInt(12)+1;
+		
+		int conMonthB = conCal.get(Calendar.MONTH) + 1;
+		int conYearB = conCal.get(Calendar.YEAR);
+		//格式化成日期
+		SimpleDateFormat sdfB = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateB = sdfB.parse(conYearB+"-"+conMonthB+"-"+conDayB);	
+		//String conDate = "2000-"+conMonthB+"-"+conDayB;
+			
+		ConMain conMain = constellSelService.selOneMainByNoid(connum);
+		
+		//02.通过星座的主对象顺序号和日期，获得对应星座的信息
+		Integer orderNum = conMain.getNoid();
+		
+		ConDay conDay = constellSelService.selOneConDayByDate(orderNum, dateB);
+		//03.向前台传递参数
+		if(conDay!=null){
+			mo.addAttribute("conDay", conDay);			
+		}
+		mo.addAttribute("conMain", conMain);
+		/**
+		 * 处理星座结束
+		 */
+		
+		//彩票处理开始
+		Date cdate=new Date();
+		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd");
+		String sdate=sdf1.format(cdate);
+		
+		List<Map<String, Object>> lst1=baseService.getNowDayLottery(sdate);
+		mo.addAttribute("now",sdate);
+		if (lst1.size()>0) {
+			mo.addAttribute("lst1",lst1);
+		}
+		//彩票处理结束
+		
+		return "fore/index/index";
+	}
+	//02.api接口页面
+	@RequestMapping("/api_list.do")
+	public String apiList(){
+		return "fore/api/api_list";
+	}
+	//03.用户中心页面
+	@RequestMapping("/user_list.do")
+	public String userList(){
+		return "fore/user/user_list";
+	}
+	//04.新闻中心页面
+	@RequestMapping("/news_list.do")
+	public String newsList(){
+		return "fore/news/news_list";
+	}
+	//05.帮助页面
+	@RequestMapping("help_list.do")
+	public String helpList(){
+		return "fore/help/help_list";
+	}
+	
+	/**
+	 * 获取2017年已开奖的数据
+	 * @return
+	 */
+	@RequestMapping("/get-url.do")
+	public String getUrl(){
+		baseService.add_lottery();
+		return "/alert/alert";
+	}
+	
+	/**
+	 * 跳转到彩票详情页面
+	 * @param lotDate
+	 * @param mo
+	 * @return
+	 */
+	@RequestMapping("/lottery.do")
+	public String Lottery(String lotDate, Model mo){
+		Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String ndate = sdf.format(date);
+		if (lotDate==null) {
+			lotDate=ndate;
+		}
+		
+		List<Map<String, Object>> lst = lotteryService.selectLottery(lotDate);
+		mo.addAttribute("lst", lst);
+		return "/fore/api_detail/lottery/lot_main";
+	}
+	
+	
+}

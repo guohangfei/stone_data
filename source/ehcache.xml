@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+	updateCheck="false">
+	<!--  缓存本是在内存的，虚拟内存放到哪个路径下  -->
+	<diskStore path="E:/ehcache/" />
+
+	<!--  允许多个  -->
+	<!--  回收策略  LRU 最近一段时间使用最少的; FIFO 先进先出 ; LFU 不管时间问题，只要用的少就回收 ;  -->
+	<cache name="noticeCache" maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="86400" timeToLiveSeconds="86400" overflowToDisk="true"
+		maxElementsOnDisk="100000" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+	<cache name="publicityCache" maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="86400" timeToLiveSeconds="86400" overflowToDisk="true"
+		maxElementsOnDisk="100000" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+	<cache name="weatherCache" maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="28800" timeToLiveSeconds="28800" overflowToDisk="true"
+		maxElementsOnDisk="100000" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+	<cache name="lotteryCache" maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="600" timeToLiveSeconds="600" overflowToDisk="true"
+		maxElementsOnDisk="100000" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+	<cache name="luckyDayCache" maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="86400" timeToLiveSeconds="86400" overflowToDisk="true"
+		maxElementsOnDisk="100000" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+	<cache name="constellationCache" maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="86400" timeToLiveSeconds="300" overflowToDisk="true"
+		maxElementsOnDisk="100000" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />		
+		
+</ehcache>

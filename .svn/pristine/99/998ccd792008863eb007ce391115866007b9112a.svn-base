@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://cxf.apache.org/jaxws   
+    http://cxf.apache.org/schemas/jaxws.xsd">
+	<bean id="bank" class="com.wskj.app.util.other.Bank"></bean>
+	<!-- 此处的seviceClass是指服务端的WebService接口的类 -->
+	<jaxws:client id="bank" serviceClass="com.wskj.app.util.other.Bank"
+		address="http://192.168.144.128:8080/bank/ws/bank?wsdl" />
+		
+	<jaxws:client id="message" serviceClass="com.wskj.app.util.other.Message"
+	address="http://localhost:8080/message/getMessage?wsdl" />
+
+</beans>
